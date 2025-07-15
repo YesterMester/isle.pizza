@@ -1,5 +1,5 @@
 /*! coi-serviceworker v0.1.7 - Guido Zuidhof and contributors, licensed under MIT */
-let coepCredentialless = false;
+let coepCredentialless = true;
 if (typeof window === 'undefined') {
     self.addEventListener("install", () => self.skipWaiting());
     self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
@@ -67,7 +67,7 @@ if (typeof window === 'undefined') {
         // You can customize the behavior of this script through a global `coi` variable.
         const coi = {
             shouldRegister: () => !reloadedBySelf,
-            shouldDeregister: () => true,
+            shouldDeregister: () => false,
             coepCredentialless: () => true,
             coepDegrade: () => true,
             doReload: () => window.location.reload(),
