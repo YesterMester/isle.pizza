@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Fixer</title>
+    <style>body{font-family:sans-serif;padding:50px;text-align:center;background:#f0f0f0;}</style>
+</head>
+<body>
+    <h1>🧹 Website Cleanup Tool</h1>
+    <p>Click the button below to fix the "Bad Pre-caching" error.</p>
+    <button onclick="fixWebsite()" style="padding:15px 30px;font-size:20px;cursor:pointer;background:green;color:white;border:none;border-radius:5px;">FIX MY GAME</button>
+    <div id="status" style="margin-top:20px;font-weight:bold;"></div>
+
+    <script>
+    async function fixWebsite() {
+        const status = document.getElementById('status');
+        status.innerText = "Cleaning old files...";
+        
+        try {
+            // 1. Unregister the stuck Service Worker
+            if (navigator.serviceWorker) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) {
+                    await registration.unregister();
+                    console.log("Unregistered worker:", registration);
+                }
+            }
+
+            // 2. Delete all old data caches
+            if (window.caches) {
+                const keys = await caches.keys();
+                for (let key of keys) {
+                    await caches.delete(key);
+                    console.log("Deleted cache:", key);
+                }
+            }
+
+            status.innerText = "✅ Success! Redirecting to game in 3 seconds...";
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 3000);
+
+        } catch (e) {
+            status.innerText = "❌ Error: " + e.message;
+        }
+    }
+    </script>
+</body>
+</html>
