@@ -453,24 +453,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let downloaderWorker = null;
     let missingGameFiles = [];
 
-    if ('serviceWorker' in navigator) {
-        Promise.all([
-            configManager.init(),
-            navigator.serviceWorker.register('/sw.js').then(() => navigator.serviceWorker.ready)
-        ]).then(([configResult, swRegistration]) => {
-            checkInitialCacheStatus();
-            showOrHideGraphicsOptions();
-        }).catch(error => {
-            console.error('Initialization failed:', error);
-        });
-
-        navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
-    }
-    else {
-        configManager.init().then(() => {
-            showOrHideGraphicsOptions();
-        });
-    }
+configManager.init().then(() => {
+    showOrHideGraphicsOptions();
+});
 
     const progressCircular = document.createElement('div');
     progressCircular.className = 'progress-circular';
